@@ -220,3 +220,74 @@ footer { background: var(--dark); color: white; text-align: center; padding: 2re
     .hero-content h1 { font-size: 2.5rem; }
     nav ul { display: none; /* Simplificação para mobile */ }
 }
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media (max-width: 768px) {
+    
+    /* 1. HEADER: Empilhar logo, menu e botão */
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 1rem;
+    }
+    
+    nav ul {
+        display: flex; /* Garante que o menu apareça (sobrescreve ocultamento anterior) */
+        gap: 15px;
+        font-size: 0.9rem;
+        flex-wrap: wrap; /* Se tiver muitos itens, quebra linha */
+        justify-content: center;
+    }
+
+    /* 2. HERO: Diminuir textos gigantes */
+    .hero {
+        height: 60vh; /* Ocupa menos altura no celular */
+    }
+    .hero-content h1 {
+        font-size: 2rem; /* De 3.5rem para 2rem */
+    }
+    .hero-content p {
+        font-size: 1rem;
+        padding: 0 10px; /* Margem para não colar na borda */
+    }
+
+    /* 3. CALENDÁRIO: Grid vira coluna única */
+    .calendar-container {
+        grid-template-columns: 1fr; /* Remove a coluna lateral */
+        gap: 30px;
+    }
+
+    /* Ajuste fino nos dias do calendário para dedos (touch) */
+    .days-grid {
+        gap: 5px; /* Menos espaço entre dias */
+    }
+    .day {
+        padding: 10px 5px; /* Menos padding lateral */
+        font-size: 0.85rem;
+        height: 50px; /* Altura fixa para facilitar o toque */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 4. LISTA DE EVENTOS: Ajuste de margens */
+    .event-card {
+        padding: 12px;
+    }
+
+    /* 5. FILTROS: Permitir quebra de linha */
+    .filter-buttons {
+        flex-wrap: wrap; /* Botões caem para a linha de baixo se faltar espaço */
+        gap: 10px;
+    }
+    .filter-btn {
+        width: 100%; /* Botão ocupa largura total no celular (melhor UX) */
+        padding: 12px;
+    }
+
+    /* 6. CARDS DE LUGARES */
+    .places-grid {
+        grid-template-columns: 1fr; /* Força 1 card por linha */
+        padding: 0 15px; /* Margem lateral segura */
+    }
+}
