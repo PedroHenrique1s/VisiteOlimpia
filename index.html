@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roteiro Turístico Olímpia | Viva a Cidade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">Visite<span>Olímpia</span></div>
+        <nav>
+            <ul>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#gastronomia">Gastronomia</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Descubra o que fazer<br>em Olímpia agora.</h1>
+            <p>Esqueça a dúvida de onde ir. O guia definitivo para famílias e jovens encontrarem a melhor experiência.</p>
+            <a href="#gastronomia" class="btn-cta">Ver Roteiro de Hoje</a>
+        </div>
+    </section>
+
+    <section id="eventos">
+        <div class="section-title">
+            <h2>Calendário Oficial</h2>
+            <p>Planeje-se com antecedência. Clique nas datas para ver a programação.</p>
+        </div>
+
+        <div class="calendar-container">
+            <div class="calendar-grid">
+                <div class="month-header">
+                    <span>Agosto 2026</span> <span>&rarr;</span>
+                </div>
+                
+                <div class="days-grid" id="grid-dias">
+                    <div class="day-label">DOM</div><div class="day-label">SEG</div><div class="day-label">TER</div><div class="day-label">QUA</div><div class="day-label">QUI</div><div class="day-label">SEX</div><div class="day-label">SÁB</div>
+                    
+                    <div class="day" data-date="2026-08-01">1</div>
+                    <div class="day" data-date="2026-08-02">2</div>
+                    <div class="day" data-date="2026-08-03">3</div>
+                    <div class="day" data-date="2026-08-04">4</div>
+                    
+                    <div class="day event-day" data-date="2026-08-05">5</div> 
+                    <div class="day event-day" data-date="2026-08-06">6</div>
+                    <div class="day event-day" data-date="2026-08-07">7</div>
+                    <div class="day event-day" data-date="2026-08-08">8</div>
+                    <div class="day event-day" data-date="2026-08-09">9</div>
+                    <div class="day event-day" data-date="2026-08-10">10</div>
+                    <div class="day event-day" data-date="2026-08-11">11</div>
+                    <div class="day event-day" data-date="2026-08-12">12</div>
+                    
+                    <div class="day" data-date="2026-08-13">13</div>
+                    <div class="day" data-date="2026-08-14">14</div>
+                </div>
+            </div>
+
+            <div class="event-list" id="lista-eventos">
+                </div>
+        </div>
+    </section>
+
+    <section id="gastronomia">
+        <div class="section-title">
+            <h2>Onde comer e beber</h2>
+            <p>Filtre pelo seu momento.</p>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="todos">Todos</button>
+            <button class="filter-btn" data-filter="familia">Família & Kids</button>
+            <button class="filter-btn" data-filter="jovens">Jovens & Pubs</button>
+        </div>
+
+        <div class="places-grid" id="places-grid">
+           </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Roteiro Olímpia - Soluções Digitais para Turismo.</p>
+    </footer>
+
+    <script>
+        // --- LÓGICA DO CALENDÁRIO (Mantida) ---
+        const dbEventos = {
+            '2026-08-05': [
+                { title: 'Abertura do 62º Festival do Folclore', time: '19:00', tag: 'Cultura', type: 'culture' },
+                { title: 'Show: Grupo Parafusos', time: '21:00', tag: 'Show', type: 'show' },
+                { title: 'After no Villa (Aberto até 04h)', time: '23:30', tag: 'Jovens', type: 'party' }
+            ],
+            '2026-08-06': [
+                { title: 'Danças Regionais do Norte', time: '20:00', tag: 'Cultura', type: 'culture' },
+                { title: 'Barraca da APAE (Jantar Típico)', time: '19:30', tag: 'Gastronomia', type: 'food' }
+            ],
+            '2026-08-07': [
+                { title: 'Desfile de Bonecos Gigantes', time: '18:00', tag: 'Família', type: 'culture' },
+                { title: 'Sextaneja no Thermas Rock', time: '23:00', tag: 'Balada', type: 'party' }
+            ],
+            'default': [
+                { title: 'Parques Aquáticos Abertos', time: '09:00 - 18:00', tag: 'Lazer', type: 'leisure' },
+                { title: 'Nenhum evento especial cadastrado', time: '-', tag: 'Info', type: 'info' }
+            ]
+        };
+
+        const listaEventosContainer = document.getElementById('lista-eventos');
+        const dias = document.querySelectorAll('.day');
+
+        function renderizarEventos(dataSelecionada) {
+            listaEventosContainer.innerHTML = '';
+            const eventosDoDia = dbEventos[dataSelecionada] || dbEventos['default'];
+
+            eventosDoDia.forEach(evento => {
+                let borderVar = 'var(--primary)';
+                if(evento.type === 'party') borderVar = '#28a745';
+                if(evento.type === 'culture') borderVar = '#004E89';
+
+                const cardHTML = `
+                    <div class="event-card" style="border-left-color: ${borderVar};">
+                        <div class="event-date">${dataFormatada(dataSelecionada)} - ${evento.time}</div>
+                        <div class="event-title">${evento.title}</div>
+                        <div class="event-tag">${evento.tag}</div>
+                    </div>
+                `;
+                listaEventosContainer.innerHTML += cardHTML;
+            });
+        }
+
+        function dataFormatada(dateString) {
+            if(!dateString) return 'Hoje';
+            const [ano, mes, dia] = dateString.split('-');
+            return `${dia}/${mes}`;
+        }
+
+        dias.forEach(day => {
+            day.addEventListener('click', function() {
+                dias.forEach(d => d.classList.remove('selected-day'));
+                this.classList.add('selected-day');
+                const dataClick = this.getAttribute('data-date');
+                renderizarEventos(dataClick);
+            });
+        });
+
+        // --- NOVA LÓGICA DE FILTROS (LUGARES) ---
+        
+        // 1. Banco de Dados dos Lugares
+        const dbLugares = [
+            {
+                nome: "Thermas Rock Bar",
+                categoria: "jovens", // Usado para filtrar
+                tipo: "Pub / Bar",
+                desc: "Música ao vivo e drinks artesanais. O ponto de encontro pós-parque.",
+                status: "Confirmado: Aberto Hoje",
+                statusClass: "", // Vazio usa a cor padrão verde
+                badge: "Aberto até 03h",
+                badgeColor: "rgba(0,0,0,0.8)",
+                imgClass: "bar" // Define o gradiente da imagem no CSS
+            },
+            {
+                nome: "Cantina da Nona",
+                categoria: "familia",
+                tipo: "Restaurante",
+                desc: "Massas artesanais e ambiente tranquilo. Área monitorada.",
+                status: "Fecha às 23h",
+                statusClass: "status-closed", // Cor laranja
+                badge: "Espaço Kids",
+                badgeColor: "var(--primary)",
+                imgClass: "rest"
+            },
+            {
+                nome: "Recanto do Folclore",
+                categoria: "jovens", // Classifiquei como Jovens/Pubs, mas aparece em TODOS
+                tipo: "Gastrobar",
+                desc: "Decoração temática e pratos típicos da região.",
+                status: "Aberto Agora",
+                statusClass: "",
+                badge: "Música Ao Vivo",
+                badgeColor: "rgba(0,0,0,0.8)",
+                imgClass: "pub"
+            }
+        ];
+
+        // 2. Seletores
+        const placesGrid = document.getElementById('places-grid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // 3. Função de Renderização dos Lugares
+        function renderizarLugares(filtro) {
+            placesGrid.innerHTML = ''; // Limpa grid
+
+            // Filtra o array
+            const lugaresFiltrados = filtro === 'todos' 
+                ? dbLugares 
+                : dbLugares.filter(lugar => lugar.categoria === filtro);
+
+            // Gera o HTML
+            lugaresFiltrados.forEach(lugar => {
+                const statusDotClass = lugar.statusClass === 'status-closed' ? 'dot-closed' : '';
+                
+                const html = `
+                    <div class="place-card">
+                        <div class="place-img ${lugar.imgClass}">
+                            <span class="badge" style="background: ${lugar.badgeColor}; color: white;">${lugar.badge}</span>
+                        </div>
+                        <div class="place-info">
+                            <div class="place-cat">${lugar.tipo}</div>
+                            <h3>${lugar.nome}</h3>
+                            <p class="place-details">${lugar.desc}</p>
+                            <div class="place-status ${lugar.statusClass}">
+                                <span class="status-dot ${statusDotClass}"></span> ${lugar.status}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                placesGrid.innerHTML += html;
+            });
+        }
+
+        // 4. Adiciona Click nos Botões
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active de todos e adiciona no clicado
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Pega o filtro e renderiza
+                const filtroSelecionado = btn.getAttribute('data-filter');
+                renderizarLugares(filtroSelecionado);
+            });
+        });
+
+
+        // --- INICIALIZAÇÃO GERAL ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicia Calendário
+            const diaInicial = document.querySelector('.day[data-date="2026-08-05"]');
+            if(diaInicial) diaInicial.click();
+            else renderizarEventos('default');
+
+            // Inicia Lugares (Carrega todos)
+            renderizarLugares('todos');
+        });
+
+    </script>
+
+</body>
+</html>

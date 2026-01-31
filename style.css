@@ -1,0 +1,222 @@
+/* VARIÁVEIS GLOBAIS */
+:root {
+    --primary: #FF6B00; /* Laranja (Energia/Sol) */
+    --secondary: #004E89; /* Azul (Thermas/Água) */
+    --accent: #FFC107; /* Amarelo (Destaque) */
+    --text: #333;
+    --light: #f4f4f4;
+    --dark: #1a1a1a;
+    --success: #28a745;
+}
+
+/* RESET E BASE */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; color: var(--text); background-color: var(--light); }
+
+/* HEADER */
+header {
+    background: white;
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--secondary); }
+.logo span { color: var(--primary); }
+nav ul { list-style: none; display: flex; gap: 20px; }
+nav a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
+nav a:hover { color: var(--primary); }
+.btn-cta {
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+.btn-cta:hover { background: #e55e00; }
+
+/* HERO SECTION */
+.hero {
+    /* Imagem de fundo com overlay escuro */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1570649236495-41443424d9c0?q=80&w=1920&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+}
+.hero-content h1 { font-size: 3.5rem; margin-bottom: 20px; line-height: 1.2; }
+.hero-content p { font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+/* TÍTULOS DE SEÇÃO */
+.section-title { text-align: center; margin: 4rem 0 2rem; }
+.section-title h2 { font-size: 2.5rem; color: var(--secondary); }
+.section-title p { color: #666; }
+
+/* --- CALENDÁRIO --- */
+.calendar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 350px; /* Calendário ocupa mais espaço, Lista menos */
+    gap: 40px;
+}
+
+.calendar-grid {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.month-header { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 700; font-size: 1.5rem; }
+.days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; text-align: center; }
+.day-label { font-weight: 600; color: #999; font-size: 0.9rem; margin-bottom: 10px; }
+
+.day {
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+.day:hover { background: #eee; }
+
+/* Dias com Eventos */
+.day.event-day { background: var(--secondary); color: white; }
+.day.event-day::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin: 5px auto 0;
+}
+
+/* Estado Selecionado (Interação JS) */
+.day.selected-day {
+    background: white !important;
+    color: var(--primary) !important;
+    border: 2px solid var(--primary);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
+    z-index: 2;
+    font-weight: bold;
+}
+
+/* LISTA DE EVENTOS (LATERAL) */
+.event-list { display: flex; flex-direction: column; gap: 15px; }
+
+/* Animação de entrada dos cards */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.event-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    animation: slideIn 0.3s ease-out forwards;
+}
+.event-date { font-size: 0.8rem; color: #888; font-weight: 600; }
+.event-title { font-weight: 700; margin: 5px 0; font-size: 1rem; }
+.event-tag { 
+    display: inline-block;
+    font-size: 0.75rem; 
+    background: #eee; 
+    padding: 2px 8px; 
+    border-radius: 4px; 
+    margin-top: 5px;
+}
+
+/* --- GASTRONOMIA / FILTROS --- */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.filter-btn {
+    padding: 10px 25px;
+    border: 2px solid var(--secondary);
+    background: transparent;
+    color: var(--secondary);
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.filter-btn.active, .filter-btn:hover {
+    background: var(--secondary);
+    color: white;
+}
+
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    padding: 0 20px;
+}
+.place-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+.place-card:hover { transform: translateY(-5px); }
+
+.place-img { height: 200px; background: #ddd; position: relative; }
+/* Gradientes para simular fotos */
+.place-img.bar { background: linear-gradient(45deg, #2c3e50, #4ca1af); }
+.place-img.rest { background: linear-gradient(45deg, #ff9966, #ff5e62); }
+.place-img.pub { background: linear-gradient(45deg, #6a11cb, #2575fc); }
+
+.badge {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: rgba(0,0,0,0.85);
+    color: var(--accent);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.place-info { padding: 20px; }
+.place-cat { color: var(--primary); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; }
+.place-info h3 { margin: 10px 0; font-size: 1.4rem; }
+.place-details { font-size: 0.9rem; color: #666; margin-bottom: 15px; min-height: 40px; }
+.place-status { display: flex; align-items: center; gap: 8px; color: var(--success); font-weight: 600; font-size: 0.9rem; }
+.status-dot { width: 10px; height: 10px; background: var(--success); border-radius: 50%; display: inline-block; }
+.status-closed { color: orange; }
+.dot-closed { background: orange; }
+
+/* FOOTER */
+footer { background: var(--dark); color: white; text-align: center; padding: 2rem; margin-top: auto; }
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .calendar-container { grid-template-columns: 1fr; }
+    .hero-content h1 { font-size: 2.5rem; }
+    nav ul { display: none; /* Simplificação para mobile */ }
+}
